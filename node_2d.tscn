@@ -21307,7 +21307,7 @@ layer_2/tile_data = PackedInt32Array(2359336, 7340032, 2, 2424872, 7340032, 3, 2
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Map/Collision"]
 build_mode = 1
-polygon = PackedVector2Array(500, 140, 418, 139, 250, 198, 246, 460, 257, 464, 284, 498, 761, 501, 796, 459, 795, 205, 629, 141)
+polygon = PackedVector2Array(422, 89, 248, 147, 246, 460, 257, 464, 284, 498, 761, 501, 796, 459, 797, 142, 628, 90)
 
 [node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Map/Collision"]
 build_mode = 1
@@ -21323,8 +21323,9 @@ material = SubResource("ShaderMaterial_q6r6c")
 texture = ExtResource("3_0hol4")
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(496, 208)
+position = Vector2(496, 197)
 script = ExtResource("4_q6r6c")
+speed = 125
 
 [node name="Sprite" type="Sprite2D" parent="Player"]
 material = SubResource("ShaderMaterial_q6r6c")
@@ -21333,3 +21334,7 @@ texture = ExtResource("4_0hol4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_kdubu")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position_smoothing_enabled = true
+position_smoothing_speed = 12.065
