@@ -11,13 +11,24 @@ config_version=5
 [application]
 
 config/name="Amangas"
-run/main_scene="uid://df6at7dtnipjm"
+run/main_scene="uid://brr8secclf31t"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.0253638, 0.0253638, 0.0253638, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.svg"
+
+[autoload]
+
+Server="*res://server.gd"
+
+[display]
+
+window/size/viewport_width=1360
+window/size/viewport_height=768
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [input]
 

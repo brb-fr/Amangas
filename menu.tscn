@@ -1,0 +1,282 @@
+[gd_scene load_steps=15 format=3 uid="uid://brr8secclf31t"]
+
+[ext_resource type="Script" uid="uid://tf5tg3fhn0pu" path="res://menu.gd" id="1_mae5d"]
+[ext_resource type="Shader" uid="uid://cosp3yqm0ldof" path="res://among-us-assets-main/Gui/rounded.gdshader" id="3_ytr4m"]
+[ext_resource type="FontFile" uid="uid://cxi2tddxcxcfu" path="res://amongus vector.ttf" id="4_4hy44"]
+[ext_resource type="Texture2D" uid="uid://doy00nb144c88" path="res://among-us-assets-main/Gui/MainMenu-sharedassets0.assets-189.png" id="4_l48gv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4hy44"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ecwwl"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kk3ma"]
+shader = ExtResource("3_ytr4m")
+shader_parameter/radius = 0.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrnbx"]
+atlas = ExtResource("4_l48gv")
+region = Rect2(1449, 106, 137, 138)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mae5d"]
+atlas = ExtResource("4_l48gv")
+region = Rect2(943, 503, 81, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytr4m"]
+atlas = ExtResource("4_l48gv")
+region = Rect2(1307, 106, 137, 138)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l48gv"]
+atlas = ExtResource("4_l48gv")
+region = Rect2(703, 456, 139, 42)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ytr4m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ecwwl"]
+atlas = ExtResource("4_l48gv")
+region = Rect2(1633, 328, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hy44"]
+atlas = ExtResource("4_l48gv")
+region = Rect2(652, 0, 653, 224)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mae5d")
+
+[node name="Host" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -7.0
+offset_right = 65.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4hy44")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ecwwl")
+text = "Create Game"
+
+[node name="TextureRect" type="TextureRect" parent="Host"]
+material = SubResource("ShaderMaterial_kk3ma")
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = -59.5
+offset_right = -23.0
+offset_bottom = 37.5
+grow_vertical = 2
+texture = SubResource("AtlasTexture_nrnbx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ColorRect" type="ColorRect" parent="Host/TextureRect"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 23.0
+offset_right = 307.0
+offset_bottom = 25.0
+color = Color(0.996078, 1, 0.996078, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Host/TextureRect"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 2.0
+offset_right = 95.0
+offset_bottom = 15.0
+color = Color(0.0352941, 0.0352941, 0.0352941, 1)
+
+[node name="TextureRect" type="TextureRect" parent="Host/TextureRect"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = -5.0
+offset_right = 173.0
+offset_bottom = 35.0
+scale = Vector2(0.605, 0.605)
+texture = SubResource("AtlasTexture_mae5d")
+
+[node name="Private" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = 150.0
+offset_right = 65.0
+offset_bottom = 183.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_ecwwl")
+placeholder_text = "Code"
+alignment = 1
+max_length = 6
+context_menu_enabled = false
+middle_mouse_paste_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+
+[node name="TextureRect" type="TextureRect" parent="Private"]
+material = SubResource("ShaderMaterial_kk3ma")
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -112.0
+offset_top = -59.5
+offset_right = -23.0
+offset_bottom = 37.5
+grow_vertical = 2
+texture = SubResource("AtlasTexture_ytr4m")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ColorRect" type="ColorRect" parent="Private/TextureRect"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 23.0
+offset_right = 307.0
+offset_bottom = 25.0
+color = Color(0.996078, 1, 0.996078, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Private/TextureRect"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 2.0
+offset_right = 95.0
+offset_bottom = 15.0
+color = Color(0.0352941, 0.0352941, 0.0352941, 1)
+
+[node name="TextureRect" type="TextureRect" parent="Private/TextureRect"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = -5.0
+offset_right = 173.0
+offset_bottom = 35.0
+scale = Vector2(0.605, 0.605)
+texture = SubResource("AtlasTexture_l48gv")
+
+[node name="Button" type="Button" parent="Private"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 43.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_ytr4m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ytr4m")
+icon = SubResource("AtlasTexture_ecwwl")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -119.0
+offset_top = 109.0
+offset_right = 120.0
+offset_bottom = 231.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("4_4hy44")
+theme_override_font_sizes/font_size = 96
+text = "AMANGAS"
+
+[node name="IP" type="LineEdit" parent="Title"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -92.5
+offset_top = 21.0
+offset_right = 93.5
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/focus = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_ecwwl")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ecwwl")
+text = "127.0.0.1:22023"
+placeholder_text = "IP address"
+alignment = 1
+context_menu_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+
+[node name="Hostmenu" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0214346, 0.0214346, 0.0214346, 1)
+
+[node name="Preview" type="TextureRect" parent="Hostmenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -691.0
+offset_top = -290.0
+offset_right = 191.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_4hy44")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="pressed" from="Host" to="." method="_on_host_pressed"]

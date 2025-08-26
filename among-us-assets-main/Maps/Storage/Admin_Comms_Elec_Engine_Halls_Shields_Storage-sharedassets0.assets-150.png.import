@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bwltlhc34o330"
-path="res://.godot/imported/Admin_Comms_Elec_Engine_Halls_Shields_Storage-sharedassets0.assets-150.png-1168fbcbe6c9ee5e3b60b6815d22bac3.ctex"
+path="res://.godot/imported/Admin_Comms_Elec_Engine_Halls_Shields_Storage-sharedassets0.assets-150.png-d4039a92d0a289ee44fd234566fe7ea2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://among-us-assets-main/Maps/Admin_Comms_Elec_Engine_Halls_Shields_Storage-sharedassets0.assets-150.png"
-dest_files=["res://.godot/imported/Admin_Comms_Elec_Engine_Halls_Shields_Storage-sharedassets0.assets-150.png-1168fbcbe6c9ee5e3b60b6815d22bac3.ctex"]
+source_file="res://among-us-assets-main/Maps/Storage/Admin_Comms_Elec_Engine_Halls_Shields_Storage-sharedassets0.assets-150.png"
+dest_files=["res://.godot/imported/Admin_Comms_Elec_Engine_Halls_Shields_Storage-sharedassets0.assets-150.png-d4039a92d0a289ee44fd234566fe7ea2.ctex"]
 
 [params]
 
