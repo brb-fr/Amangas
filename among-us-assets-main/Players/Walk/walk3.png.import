@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3potpitga5ek"
-path="res://.godot/imported/Player-sharedassets0.assets-55.png-1efe88303148090f4566f70e4b29ddcd.ctex"
+uid="uid://bdmp40wnhu2qi"
+path="res://.godot/imported/walk3.png-40315ad904fef2416c766f9b50010101.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://among-us-assets-main/Players/Player-sharedassets0.assets-55.png"
-dest_files=["res://.godot/imported/Player-sharedassets0.assets-55.png-1efe88303148090f4566f70e4b29ddcd.ctex"]
+source_file="res://among-us-assets-main/Players/Walk/walk3.png"
+dest_files=["res://.godot/imported/walk3.png-40315ad904fef2416c766f9b50010101.ctex"]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
-compress/channel_pack=1
+compress/channel_pack=0
 mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0

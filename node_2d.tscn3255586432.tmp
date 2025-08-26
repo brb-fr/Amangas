@@ -1,6 +1,5 @@
-[gd_scene load_steps=19 format=3 uid="uid://df6at7dtnipjm"]
+[gd_scene load_steps=18 format=3 uid="uid://df6at7dtnipjm"]
 
-[ext_resource type="Script" uid="uid://bwuq4481haa7s" path="res://main.gd" id="1_hqns4"]
 [ext_resource type="Texture2D" uid="uid://cne80dtf50dws" path="res://among-us-assets-main/Maps/Lobby/Lobby-sharedassets0.assets-54.png" id="1_wtcfe"]
 [ext_resource type="Shader" uid="uid://d3bdvipp707wi" path="res://player.gdshader" id="2_epypp"]
 [ext_resource type="Texture2D" uid="uid://d3potpitga5ek" path="res://among-us-assets-main/Players/Player-sharedassets0.assets-55.png" id="3_0hol4"]
@@ -21360,8 +21359,7 @@ _data = {
 &"walk": SubResource("Animation_nr8wp")
 }
 
-[node name="Main" type="Node2D"]
-script = ExtResource("1_hqns4")
+[node name="Node2D" type="Node2D"]
 
 [node name="Map" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_epypp")
@@ -21381,7 +21379,7 @@ layer_3/tile_data = PackedInt32Array(2359336, 7340032, 2, 2424872, 7340032, 3, 2
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Map/Collision"]
 build_mode = 1
-polygon = PackedVector2Array(422, 89, 248, 147, 248, 456, 257, 464, 284, 498, 761, 501, 797, 459, 797, 147, 628, 89)
+polygon = PackedVector2Array(422, 89, 248, 147, 246, 460, 257, 464, 284, 498, 761, 501, 796, 459, 797, 142, 628, 90)
 
 [node name="CollisionShape2D2" type="CollisionPolygon2D" parent="Map/Collision"]
 build_mode = 1
@@ -21391,7 +21389,7 @@ polygon = PackedVector2Array(414, 367, 414, 336, 312, 324, 311, 364, 351, 392)
 build_mode = 1
 polygon = PackedVector2Array(706, 328, 744, 296, 745, 260, 642, 273, 643, 307)
 
-[node name="RocketThing" type="TileMap" parent="Map"]
+[node name="TileMap" type="TileMap" parent="Map"]
 position = Vector2(-3.39, -0.975)
 tile_set = SubResource("TileSet_epypp")
 format = 2
@@ -21403,14 +21401,15 @@ material = SubResource("ShaderMaterial_q6r6c")
 texture = ExtResource("3_0hol4")
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(302, 185)
+position = Vector2(489, 208)
 script = ExtResource("4_q6r6c")
 speed = 125
 
 [node name="Shadow" type="Sprite2D" parent="Player"]
+modulate = Color(1, 1, 1, 0.729412)
 material = SubResource("ShaderMaterial_q6r6c")
-position = Vector2(1.49999, 27.62)
-scale = Vector2(1.05769, 0.853793)
+position = Vector2(1.43499, 27.62)
+scale = Vector2(0.944807, 0.853793)
 texture = ExtResource("5_ir8iy")
 
 [node name="Sprite" type="Sprite2D" parent="Player"]
