@@ -6,6 +6,9 @@ const PORT = 22023
 var ms:int
 
 func _ready() -> void:
+	if FileAccess.file_exists("user://ip.address"):
+		var file = FileAccess.open("user://ip.address",FileAccess.READ)
+		$Title/IP.text = file.get_as_text()
 	if OS.has_feature("dedicated_server"):
 		peer.create_server(22023)
 		multiplayer.multiplayer_peer = peer
@@ -116,10 +119,13 @@ func create_game(player_username:String, player_id:int = 0):
 func join_game(room_code:int,player_username:String,player_id:int=0):
 	var player_real = multiplayer.get_remote_sender_id() if player_id == 0 else player_id
 	print("Client trying to join: %s (%s)"%[room_code,player_real])
-	if rooms.size() == 0:
-		rpc_id(player_real, "show_error", "Room not found.")
 	for room in rooms:
 		if int(room.code) == room_code:
-			pass
-		else:
-			rpc_id(player_real, "show_error", "Room not found.")
+			print("Player joined room %s (%s)"%[room_code,player_real])
+			return
+	rpc_id(player_real, "show_error", "Room not found.")
+
+
+func _on_ip_focus_exited() -> void:
+	var file = FileAccess.open("user://ip.address",FileAccess.WRITE)
+	file.store_string($Title/IP.text)
