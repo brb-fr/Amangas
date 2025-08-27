@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Server="*res://server.gd"
+Menu="*res://menu.tscn"
 
 [display]
 

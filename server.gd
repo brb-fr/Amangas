@@ -30,5 +30,10 @@ func create_game(player_username:String, player_id:int = 0):
 		"host_id": player_real
 	})
 @rpc("any_peer", "call_local", "reliable")
-func join_game(room_code:int,player_real:int,player_username:String):
-	pass
+func join_game(room_code:int,player_username:String,player_id:int=0):
+	var player_real = multiplayer.get_remote_sender_id() if player_id != 0 else player_id
+	for room in rooms:
+		if room.code == room_code:
+			pass
+		else:
+			Menu.rpc_id(player_real, "show_error", "Room not found.")

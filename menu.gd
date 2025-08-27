@@ -1,6 +1,6 @@
 extends Control
 
-@onready var ip = $Title/IP.text
+
 const PORT = 22023
 var ms:int
 func _ready() -> void:
@@ -24,7 +24,7 @@ func _on_host_pressed() -> void:
 	$Host/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	var peer = WebSocketMultiplayerPeer.new()
-	peer.create_client(str("ws://%s"%ip))
+	peer.create_client(str("wss://%s"%$Title/IP.text))
 	multiplayer.multiplayer_peer = peer
 
 
@@ -52,12 +52,12 @@ func _on_go_mouse_exited() -> void:
 
 
 func _on_go_pressed() -> void:
-	$Host/Icon/Tube/Loading.show()
+	$Private/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	var peer = WebSocketMultiplayerPeer.new()
-	peer.create_client(str("ws://%s"%ip))
+	peer.create_client(str("wss://%s"%$Title/IP.text))
 	multiplayer.multiplayer_peer = peer
-
+	
 func _process(delta: float) -> void:
 	if $Private/Icon/Tube/Loading.visible or $Host/Icon/Tube/Loading.visible:
 		$Private.editable = false
@@ -69,3 +69,14 @@ func _process(delta: float) -> void:
 		$Private.editable = true
 		$Private/Go.disabled = false
 		$Host.disabled = false
+@rpc("authority","call_local", "reliable")
+func show_error(err:String):
+	if multiplayer.get_remote_sender_id() == 1:
+		$Error.show()
+		var tween = get_tree().create_tween()
+		tween.tween_property($Error,"scale", Vector2(1.0,1.0), 0.1)
+		tween.play()
+		$Error/Err.text = err
+		$Host/Icon/Tube/Loading.hide()
+		$Private/Icon/Tube/Loading.hide()
+	
