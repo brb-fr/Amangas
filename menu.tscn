@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://brr8secclf31t"]
+[gd_scene load_steps=24 format=3 uid="uid://brr8secclf31t"]
 
 [ext_resource type="Script" uid="uid://tf5tg3fhn0pu" path="res://menu.gd" id="1_mae5d"]
 [ext_resource type="Shader" uid="uid://cosp3yqm0ldof" path="res://among-us-assets-main/Gui/rounded.gdshader" id="3_ytr4m"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://doy00nb144c88" path="res://among-us-assets-main/Gui/MainMenu-sharedassets0.assets-189.png" id="4_l48gv"]
 [ext_resource type="Texture2D" uid="uid://ca1vd11h17a5u" path="res://among-us-assets-main/Gui/Loading/2.png" id="5_kk3ma"]
 [ext_resource type="Texture2D" uid="uid://d0vey02xtlrfl" path="res://among-us-assets-main/Gui/Loading/3.png" id="6_nrnbx"]
+[ext_resource type="Texture2D" uid="uid://bquwxhenyxpue" path="res://among-us-assets-main/Gui/close.png" id="8_kk3ma"]
+[ext_resource type="Texture2D" uid="uid://c88ufory61351" path="res://among-us-assets-main/Gui/tick.png" id="8_nrnbx"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4hy44"]
 
@@ -43,6 +45,8 @@ frame_2/duration = 0.1
 atlas = ExtResource("4_l48gv")
 region = Rect2(943, 503, 81, 39)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nrnbx"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ytr4m"]
 atlas = ExtResource("4_l48gv")
 region = Rect2(1307, 106, 137, 138)
@@ -60,6 +64,19 @@ region = Rect2(1633, 328, 55, 50)
 [sub_resource type="AtlasTexture" id="AtlasTexture_4hy44"]
 atlas = ExtResource("4_l48gv")
 region = Rect2(652, 0, 653, 224)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqepy"]
+bg_color = Color(0.00820202, 0.00820203, 0.00820202, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h1wq0"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -126,9 +143,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -38.0
-offset_top = -24.0
-offset_right = -10.0
+offset_left = -44.0
+offset_top = -36.0
+offset_right = -6.0
+offset_bottom = 3.0
 grow_horizontal = 0
 texture = SubResource("AnimatedTexture_iqepy")
 expand_mode = 1
@@ -165,6 +183,7 @@ offset_bottom = 183.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 15
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nrnbx")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ecwwl")
 placeholder_text = "Code"
 alignment = 1
@@ -203,9 +222,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -38.0
-offset_top = -24.0
-offset_right = -10.0
+offset_left = -44.0
+offset_top = -36.0
+offset_right = -6.0
+offset_bottom = 3.0
 grow_horizontal = 0
 texture = SubResource("AnimatedTexture_iqepy")
 expand_mode = 1
@@ -319,4 +339,104 @@ texture = SubResource("AtlasTexture_4hy44")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="Error" type="Panel" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -235.5
+offset_top = -138.0
+offset_right = 235.5
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(235.5, 138)
+theme_override_styles/panel = SubResource("StyleBoxFlat_iqepy")
+
+[node name="JMSCARE" type="TextureRect" parent="Error"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -444.0
+offset_top = -246.0
+offset_right = 660.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_nrnbx")
+
+[node name="BG" type="Panel" parent="Error"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -443.0
+offset_top = -246.0
+offset_right = 446.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Err" type="RichTextLabel" parent="Error"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -221.5
+offset_top = -23.0
+offset_right = 221.5
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "Failed to connect to the server
+after 1 ping (N/A ms)"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Close" type="Button" parent="Error"]
+modulate = Color(0.0392157, 1, 0.0392157, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -30.5
+offset_top = -20.0
+offset_right = 20.5
+offset_bottom = 36.0
+grow_horizontal = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_h1wq0")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_h1wq0")
+action_mode = 0
+icon = ExtResource("8_kk3ma")
+icon_alignment = 1
+expand_icon = true
+
 [connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
+[connection signal="mouse_entered" from="Private/Go" to="." method="_on_go_mouse_entered"]
+[connection signal="mouse_exited" from="Private/Go" to="." method="_on_go_mouse_exited"]
+[connection signal="pressed" from="Private/Go" to="." method="_on_go_pressed"]
+[connection signal="mouse_entered" from="Error/Close" to="." method="_on_close_mouse_entered"]
+[connection signal="mouse_exited" from="Error/Close" to="." method="_on_close_mouse_exited"]
+[connection signal="pressed" from="Error/Close" to="." method="_on_close_pressed"]
