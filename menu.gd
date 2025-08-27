@@ -29,7 +29,8 @@ func _on_host_pressed() -> void:
 
 
 func _on_close_mouse_entered() -> void:
-	$Error/Close.modulate = Color(0.1,1.0,0.1)
+	if !DisplayServer.is_touchscreen_available():
+		$Error/Close.modulate = Color(0.1,1.0,0.1)
 
 
 func _on_close_mouse_exited() -> void:
@@ -42,7 +43,8 @@ func _on_close_pressed() -> void:
 
 
 func _on_go_mouse_entered() -> void:
-	$Private/Go.modulate = Color(0.1,1.0,0.1)
+	if !DisplayServer.is_touchscreen_available() and !$Private/Go.disabled:
+		$Private/Go.modulate = Color(0.1,1.0,0.1)
 
 
 func _on_go_mouse_exited() -> void:
@@ -59,9 +61,11 @@ func _on_go_pressed() -> void:
 func _process(delta: float) -> void:
 	if $Private/Icon/Tube/Loading.visible or $Host/Icon/Tube/Loading.visible:
 		$Private.editable = false
+		$Title/IP.editable = false
 		$Private/Go.disabled = true
 		$Host.disabled = true
 	else:
+		$Title/IP.editable = true
 		$Private.editable = true
 		$Private/Go.disabled = false
 		$Host.disabled = false
