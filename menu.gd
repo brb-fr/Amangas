@@ -36,7 +36,7 @@ func _on_host_pressed() -> void:
 	$Host/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	var peer = WebSocketMultiplayerPeer.new()
-	peer.create_client(str("ws://%s"%$Title/IP.text))
+	peer.create_client(str($Title/IP.text))
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
 	rpc_id(1,"create_game","brbfr")
@@ -68,7 +68,7 @@ func _on_go_pressed() -> void:
 	$Private/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	var peer = WebSocketMultiplayerPeer.new()
-	peer.create_client(str("ws://%s"%$Title/IP.text))
+	peer.create_client(str($Title/IP.text))
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
 	rpc_id(1,"join_game",int($Private.text),"brbfr")
