@@ -19,10 +19,6 @@ boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.svg"
 
-[autoload]
-
-Server="*res://server.gd"
-
 [display]
 
 window/size/viewport_width=1360

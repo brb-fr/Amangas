@@ -9,7 +9,9 @@ var last_vertical = 0
 
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
-	
+	if is_multiplayer_authority():
+		$Camera2D.make_current()
+		$Camera2D.enabled = true
 func _physics_process(delta):
 	if is_multiplayer_authority():
 		var left = Input.is_action_pressed("ui_left")

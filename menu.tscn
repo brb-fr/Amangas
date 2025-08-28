@@ -1,6 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://brr8secclf31t"]
+[gd_scene load_steps=26 format=3 uid="uid://brr8secclf31t"]
 
 [ext_resource type="Script" uid="uid://tf5tg3fhn0pu" path="res://menu.gd" id="1_mae5d"]
+[ext_resource type="PackedScene" uid="uid://df6at7dtnipjm" path="res://node_2d.tscn" id="2_h1wq0"]
+[ext_resource type="PackedScene" uid="uid://w4n6cu0n5e7r" path="res://player.tscn" id="3_dwrpx"]
 [ext_resource type="Shader" uid="uid://cosp3yqm0ldof" path="res://among-us-assets-main/Gui/rounded.gdshader" id="3_ytr4m"]
 [ext_resource type="FontFile" uid="uid://cxi2tddxcxcfu" path="res://amongus vector.ttf" id="4_4hy44"]
 [ext_resource type="Texture2D" uid="uid://bxwj85y3w4w3n" path="res://among-us-assets-main/Gui/Loading/1.png" id="4_ecwwl"]
@@ -86,6 +88,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mae5d")
+spaceship_scene = ExtResource("2_h1wq0")
+player_scene = ExtResource("3_dwrpx")
 
 [node name="Host" type="Button" parent="."]
 layout_mode = 1
@@ -437,6 +441,12 @@ action_mode = 0
 icon = ExtResource("8_kk3ma")
 icon_alignment = 1
 expand_icon = true
+
+[node name="Node" type="Node" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://w4n6cu0n5e7r")
+spawn_path = NodePath("..")
 
 [connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
 [connection signal="mouse_entered" from="Private/Go" to="." method="_on_go_mouse_entered"]

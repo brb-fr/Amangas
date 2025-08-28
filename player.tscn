@@ -25,9 +25,9 @@ shader_parameter/player_color = Color(1, 1, 1, 1)
 shader_parameter/visor_lower_color = Color(0.313726, 0.494118, 0.635294, 1)
 shader_parameter/visor_upper_color = Color(0.592157, 0.792157, 0.866667, 1)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_op7ga"]
-radius = 23.0
-height = 64.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dw050"]
+radius = 21.0
+height = 48.0
 
 [sub_resource type="Animation" id="Animation_d2bti"]
 length = 0.001
@@ -120,9 +120,12 @@ scale = Vector2(0.65, 0.65)
 texture = ExtResource("4_nvl01")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_op7ga")
+position = Vector2(1, 13)
+rotation = -1.57079
+shape = SubResource("CapsuleShape2D_dw050")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
 zoom = Vector2(1.3, 1.3)
 position_smoothing_enabled = true
 position_smoothing_speed = 12.065
