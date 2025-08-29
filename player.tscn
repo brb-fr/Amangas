@@ -103,9 +103,6 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath("Sprite:flip_h")
 properties/2/spawn = true
 properties/2/replication_mode = 2
-properties/3/path = NodePath("Name:text")
-properties/3/spawn = true
-properties/3/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
@@ -149,19 +146,20 @@ libraries = {
 playback_auto_capture = false
 speed_scale = 0.85
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_dw050")
-
-[node name="Name" type="Label" parent="."]
+[node name="uname" type="Label" parent="."]
+z_index = 10
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -17.0
-offset_top = -60.0
-offset_right = 23.0
-offset_bottom = -37.0
+offset_left = -19.0
+offset_top = -54.0
+offset_right = 21.0
+offset_bottom = -31.0
 grow_horizontal = 2
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 12
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_dw050")

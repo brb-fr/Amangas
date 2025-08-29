@@ -14,6 +14,8 @@ signal player_request_join(id:int)
 @onready var ship := spaceship_scene.instantiate()
 
 func _ready() -> void:
+	if DisplayServer.is_touchscreen_available():
+		$"UI/Virtual Joystick".show()
 	ship.hide()
 	add_child(ship)
 	_ping_loop()
@@ -21,6 +23,9 @@ func _ready() -> void:
 	if FileAccess.file_exists("user://ip.address"):
 		var file = FileAccess.open("user://ip.address",FileAccess.READ)
 		$Title/IP.text = file.get_as_text()
+	if FileAccess.file_exists("user://user.name"):
+		var file = FileAccess.open("user://user.name",FileAccess.READ)
+		$Title/Name.text = file.get_as_text()
 	if !OS.has_feature("dedicated_server"):
 		multiplayer.connected_to_server.connect(func():
 			$Host/Icon/Tube/Loading.hide()
@@ -47,6 +52,8 @@ func _ready() -> void:
 		)
 		multiplayer.multiplayer_peer.peer_disconnected.connect(func(id:int):
 			print("Client disconnected (%s)" % id)
+			if get_node(str(id)):
+				remove_child(get_node(str(id)))
 		)
 
 func _on_host_pressed() -> void:
@@ -136,9 +143,11 @@ func _on_ip_focus_exited() -> void:
 func _add_player(id:int, username:String):
 	var player = player_scene.instantiate()
 	player.name = str(id)
-	player.username = username
-	call_deferred("add_child", player)
+	add_child(player)
+	player.set_username(str(username))
+	player.get_node("uname").text = str(username)
 	return player
+
 @rpc("call_remote", "any_peer", "reliable")
 func set_players(players_arr:Array, options_dict:Dictionary):
 	options = options_dict
@@ -231,7 +240,7 @@ func _ping_loop() -> void:
 		rpc_id(1, "ping", Time.get_ticks_msec())
 	else:
 		ping_ms = -1
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(0.5).timeout
 	_ping_loop()
 @rpc("any_peer","call_remote","reliable")
 func set_pos(posx:int):
@@ -248,3 +257,8 @@ func check_delay() -> void:
 		$Error/Err.text = "Invalid server address."
 		$Host/Icon/Tube/Loading.hide()
 		$Private/Icon/Tube/Loading.hide()
+
+
+func _on_name_focus_exited() -> void:
+	var file = FileAccess.open("user://user.name",FileAccess.WRITE)
+	file.store_string($Title/Name.text)
