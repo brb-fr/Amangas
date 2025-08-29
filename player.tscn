@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://w4n6cu0n5e7r"]
 
-[ext_resource type="Script" uid="uid://bpcpis1v3p6ai" path="res://player.gd" id="1_dw050"]
+[ext_resource type="Script" uid="uid://0m27qv54fam8" path="res://player.gd" id="1_dw050"]
 [ext_resource type="Shader" uid="uid://d3bdvipp707wi" path="res://player.gdshader" id="2_b26j0"]
 [ext_resource type="Texture2D" uid="uid://dh17ewukj77i1" path="res://among-us-assets-main/Players/shadow.png" id="3_n7ghd"]
 [ext_resource type="Texture2D" uid="uid://616al0lst38g" path="res://among-us-assets-main/Players/idle.png" id="4_nvl01"]
@@ -103,6 +103,9 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath("Sprite:flip_h")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath("uname:text")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
@@ -151,10 +154,10 @@ z_index = 10
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -19.0
-offset_top = -54.0
-offset_right = 21.0
-offset_bottom = -31.0
+offset_left = -23.0
+offset_top = -59.0
+offset_right = 24.0
+offset_bottom = -36.0
 grow_horizontal = 2
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 12

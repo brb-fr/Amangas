@@ -553,7 +553,6 @@ vertical_alignment = 1
 offset_top = -377.0
 offset_bottom = -77.0
 scale = Vector2(1.25, 1.25)
-visibility_mode = 1
 
 [connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Host" to="." method="check_delay"]

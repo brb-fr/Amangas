@@ -15,7 +15,7 @@ signal player_request_join(id:int)
 
 func _ready() -> void:
 	if DisplayServer.is_touchscreen_available():
-		$"UI/Virtual Joystick".show()
+		$UI/TouchScreenJoystick.show()
 	ship.hide()
 	add_child(ship)
 	_ping_loop()
@@ -63,8 +63,7 @@ func _on_host_pressed() -> void:
 	$Host/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	peer = WebSocketMultiplayerPeer.new()
-	var peer = peer
-	peer.create_client(str($Title/IP.text))
+	peer.create_client(str($Title/IP.text) if !$Title/IP.text == "default" else "wss://solid-space-winner-wrg77q46pvqv356j5-22023.app.github.dev/")
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
 	rpc_id(1,"create_game", $Title/Name.text)
@@ -99,8 +98,7 @@ func _on_go_pressed() -> void:
 	$Private/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	peer = WebSocketMultiplayerPeer.new()
-	var peer = peer 
-	peer.create_client(str($Title/IP.text))
+	peer.create_client(str($Title/IP.text) if !$Title/IP.text == "default" else "wss://solid-space-winner-wrg77q46pvqv356j5-22023.app.github.dev/")
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
 	rpc_id(1,"join_game",int($Private.text),$Title/Name.text)
@@ -135,16 +133,12 @@ func show_error(err:String):
 		$Private/Icon/Tube/Loading.hide()
 	
 
-func _on_ip_focus_exited() -> void:
-	var file = FileAccess.open("user://ip.address",FileAccess.WRITE)
-	file.store_string($Title/IP.text)
 
 
 func _add_player(id:int, username:String):
 	var player = player_scene.instantiate()
 	player.name = str(id)
 	add_child(player)
-	player.set_username(str(username))
 	player.get_node("uname").text = str(username)
 	return player
 
@@ -240,7 +234,7 @@ func _ping_loop() -> void:
 		rpc_id(1, "ping", Time.get_ticks_msec())
 	else:
 		ping_ms = -1
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1.25).timeout
 	_ping_loop()
 @rpc("any_peer","call_remote","reliable")
 func set_pos(posx:int):
@@ -248,17 +242,22 @@ func set_pos(posx:int):
 
 
 func check_delay() -> void:
-	if !$Title/IP.text.begins_with("wss://") and !$Title/IP.text.begins_with("ws://"):
-		multiplayer.connection_failed.emit()
-		$Error.show()
-		var tween = get_tree().create_tween()
-		tween.tween_property($Error,"scale", Vector2(1.0,1.0), 0.1)
-		tween.play()
-		$Error/Err.text = "Invalid server address."
-		$Host/Icon/Tube/Loading.hide()
-		$Private/Icon/Tube/Loading.hide()
+	if $Title/IP.text != "default":
+		if !$Title/IP.text.begins_with("wss://") and !$Title/IP.text.begins_with("ws://"):
+			multiplayer.connection_failed.emit()
+			$Error.show()
+			var tween = get_tree().create_tween()
+			tween.tween_property($Error,"scale", Vector2(1.0,1.0), 0.1)
+			tween.play()
+			$Error/Err.text = "Invalid server address."
+			$Host/Icon/Tube/Loading.hide()
+			$Private/Icon/Tube/Loading.hide()
+
+func _on_ip_text_changed(new_text: String) -> void:
+	var file = FileAccess.open("user://ip.address",FileAccess.WRITE)
+	file.store_string(new_text)
 
 
-func _on_name_focus_exited() -> void:
+func _on_name_text_changed(new_text: String) -> void:
 	var file = FileAccess.open("user://user.name",FileAccess.WRITE)
-	file.store_string($Title/Name.text)
+	file.store_string(new_text)

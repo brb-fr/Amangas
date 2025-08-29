@@ -5,12 +5,16 @@ var last_horizontal = 0
 var last_vertical = 0
 @onready var anim = $Anims
 @onready var sprite = $Sprite
-
+var username := ""
 func _enter_tree() -> void:
 	set_multiplayer_authority(name.to_int())
 	if is_multiplayer_authority():
 		$Camera2D.enabled = true
 		$Camera2D.make_current()
+
+func _ready() -> void:
+	$uname.text = FileAccess.get_file_as_string("user://user.name")
+
 func _physics_process(delta):
 	if is_multiplayer_authority():
 		if OS.get_name() == "Windows":
@@ -42,13 +46,17 @@ func _physics_process(delta):
 			if velocity != Vector2.ZERO:
 				velocity = velocity.normalized() * speed
 		else:
-			var inp = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down") * speed
-			velocity = inp
+			var inp = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+			if Input.is_action_just_pressed("ui_left"):
+				$Sprite.flip_h = true
+			if Input.is_action_just_pressed("ui_right"):
+				$Sprite.flip_h = false
+			velocity = inp * speed
 		move_and_slide()
 		if velocity.length() > 0:
 			anim.play("walk")
 		else:
 			anim.play("RESET")
 
-func set_username(u:String):
-	$uname.text = u
+func _process(delta: float) -> void:
+	z_index = abs(position.y)
