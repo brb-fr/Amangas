@@ -52,7 +52,8 @@ func _on_host_pressed() -> void:
 	peer.create_client(str($Title/IP.text))
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
-	create_airship(rpc_id(1,"create_game","brbfr"))
+	rpc_id(1,"create_game","brbfr")
+
 func _on_close_mouse_entered() -> void:
 	if !DisplayServer.is_touchscreen_available():
 		$Error/Close.modulate = Color(0.1,1.0,0.1)
@@ -85,7 +86,7 @@ func _on_go_pressed() -> void:
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
 	rpc_id(1,"join_game",int($Private.text),"brbfr")
-	create_airship(int($Private.text))
+
 func _process(delta: float) -> void:
 	if $Private/Icon/Tube/Loading.visible or $Host/Icon/Tube/Loading.visible:
 		$Private.editable = false
@@ -115,15 +116,11 @@ func _on_ip_focus_exited() -> void:
 	file.store_string($Title/IP.text)
 
 
-func _add_player(id:int) -> void:
+func _add_player(id:int):
 	var player = player_scene.instantiate()
 	player.name = str(id)
-	player.position.x = 269400
 	call_deferred("add_child", player)
-	
-func _sync_players_to_all() -> void:
-	for player_id in players:
-		rpc_id(player_id, "set_players", players, options)
+	return player
 @rpc("call_remote", "any_peer", "reliable")
 func set_players(players_arr:Array, options_dict:Dictionary):
 	options = options_dict
@@ -148,7 +145,10 @@ func create_game(player_username:String, player_id:int = 0):
 		"players": [player_real]
 	})
 	rpc_id(player_real, "join_game", int(room_code), player_username, player_real)
-	return int(room_code)
+	rpc_id(player_real, "create_airship", int(room_code))
+	_add_player(player_real)
+	await get_tree().create_timer(0.25).timeout
+	rpc_id(player_real, "set_pos", int(room_code))
 @rpc("any_peer", "call_remote", "reliable")
 func join_game(room_code:int, player_username:String, player_id:int=0):
 	var player_real = multiplayer.get_remote_sender_id() if player_id == 0 else player_id
@@ -156,9 +156,12 @@ func join_game(room_code:int, player_username:String, player_id:int=0):
 	for room in rooms:
 		if int(room.code) == int(room_code):
 			print("Player joined room %s (%s)" % [room_code, player_real])
-			rpc_id(player_real, "player_joined_room", room_code)
+			rpc_id(player_real, "player_joined_room", int(room_code))
 			rpc_id(room.host_id, "add_player_to_lobby", player_real)
+			rpc_id(player_real, "create_airship", int(room_code))
 			_add_player(player_real)
+			await get_tree().create_timer(0.25).timeout
+			rpc_id(player_real, "set_pos",int(room_code))
 			return
 	rpc_id(player_real, "send_err", "Room not found.")
 @rpc("any_peer", "call_remote", "reliable")
@@ -188,7 +191,12 @@ func player_joined_room(room_code:Variant):
 func add_player_to_lobby(id:int):
 	player_request_join.emit(id)
 
+@rpc("any_peer","call_remote","reliable")
 func create_airship(coords:int):
 	ship = spaceship_scene.instantiate()
 	ship.position.x = coords
 	add_child(ship)
+
+@rpc("any_peer","call_remote","reliable")
+func set_pos(posx:int):
+	get_node(str(multiplayer.get_unique_id())).position.x = posx
