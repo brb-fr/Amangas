@@ -11,8 +11,11 @@ var rooms := []
 const PORT = 22023
 signal server_error(err:String)
 signal player_request_join(id:int)
-var ship: Variant
+@onready var ship := spaceship_scene.instantiate()
+
 func _ready() -> void:
+	ship.hide()
+	add_child(ship)
 	_ping_loop()
 	server_error.connect(show_error)
 	if FileAccess.file_exists("user://ip.address"):
@@ -47,6 +50,9 @@ func _ready() -> void:
 		)
 
 func _on_host_pressed() -> void:
+	if $Title/Name.text == "":
+		$Title/Name/Shake.play("shake")
+		return
 	$Host/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	peer = WebSocketMultiplayerPeer.new()
@@ -54,7 +60,7 @@ func _on_host_pressed() -> void:
 	peer.create_client(str($Title/IP.text))
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
-	rpc_id(1,"create_game","brbfr")
+	rpc_id(1,"create_game", $Title/Name.text)
 
 func _on_close_mouse_entered() -> void:
 	if !DisplayServer.is_touchscreen_available():
@@ -80,6 +86,9 @@ func _on_go_mouse_exited() -> void:
 
 
 func _on_go_pressed() -> void:
+	if $Title/Name.text == "":
+		$Title/Name/Shake.play("shake")
+		return
 	$Private/Icon/Tube/Loading.show()
 	ms = Time.get_ticks_msec()
 	peer = WebSocketMultiplayerPeer.new()
@@ -87,7 +96,7 @@ func _on_go_pressed() -> void:
 	peer.create_client(str($Title/IP.text))
 	multiplayer.multiplayer_peer = peer
 	await multiplayer.connected_to_server
-	rpc_id(1,"join_game",int($Private.text),"brbfr")
+	rpc_id(1,"join_game",int($Private.text),$Title/Name.text)
 
 func _process(delta: float) -> void:
 	if ping_ms != -1:
@@ -97,10 +106,12 @@ func _process(delta: float) -> void:
 	if $Private/Icon/Tube/Loading.visible or $Host/Icon/Tube/Loading.visible:
 		$Private.editable = false
 		$Title/IP.editable = false
+		$Title/Name.editable = false
 		$Private/Go.disabled = true
 		$Host.disabled = true
 	else:
 		$Title/IP.editable = true
+		$Title/Name.editable = true
 		$Private.editable = true
 		$Private/Go.disabled = false
 		$Host.disabled = false
@@ -122,9 +133,10 @@ func _on_ip_focus_exited() -> void:
 	file.store_string($Title/IP.text)
 
 
-func _add_player(id:int):
+func _add_player(id:int, username:String):
 	var player = player_scene.instantiate()
 	player.name = str(id)
+	player.username = username
 	call_deferred("add_child", player)
 	return player
 @rpc("call_remote", "any_peer", "reliable")
@@ -152,7 +164,7 @@ func create_game(player_username:String, player_id:int = 0):
 	})
 	rpc_id(player_real, "join_game", int(room_code), player_username, player_real)
 	rpc_id(player_real, "create_airship", int(room_code))
-	_add_player(player_real)
+	_add_player(player_real, player_username)
 	await get_tree().create_timer(0.25).timeout
 	rpc_id(player_real, "set_pos", int(room_code))
 @rpc("any_peer", "call_remote", "reliable")
@@ -165,7 +177,7 @@ func join_game(room_code:int, player_username:String, player_id:int=0):
 			rpc_id(player_real, "player_joined_room", int(room_code))
 			rpc_id(room.host_id, "add_player_to_lobby", player_real)
 			rpc_id(player_real, "create_airship", int(room_code))
-			_add_player(player_real)
+			_add_player(player_real, player_username)
 			await get_tree().create_timer(0.25).timeout
 			rpc_id(player_real, "set_pos",int(room_code))
 			return
@@ -199,11 +211,9 @@ func add_player_to_lobby(id:int):
 
 @rpc("any_peer","call_remote","reliable")
 func create_airship(coords:int):
-	ship = spaceship_scene.instantiate()
+	ship.show()
 	ship.position.x = coords
-	add_child(ship)
-
-
+	$UI/Code.text = "Code\n%s"%coords
 
 @rpc("any_peer","call_local")
 func ping(sent_time: int) -> void:
@@ -226,3 +236,15 @@ func _ping_loop() -> void:
 @rpc("any_peer","call_remote","reliable")
 func set_pos(posx:int):
 	get_node(str(multiplayer.get_unique_id())).position.x = posx
+
+
+func check_delay() -> void:
+	if !$Title/IP.text.begins_with("wss://") and !$Title/IP.text.begins_with("ws://"):
+		multiplayer.connection_failed.emit()
+		$Error.show()
+		var tween = get_tree().create_tween()
+		tween.tween_property($Error,"scale", Vector2(1.0,1.0), 0.1)
+		tween.play()
+		$Error/Err.text = "Invalid server address."
+		$Host/Icon/Tube/Loading.hide()
+		$Private/Icon/Tube/Loading.hide()

@@ -5,9 +5,10 @@ var last_horizontal = 0
 var last_vertical = 0
 @onready var anim = $Anims
 @onready var sprite = $Sprite
-
+var username: String
 
 func _enter_tree() -> void:
+	$Name.text = username
 	set_multiplayer_authority(name.to_int())
 	if is_multiplayer_authority():
 		$Camera2D.enabled = true

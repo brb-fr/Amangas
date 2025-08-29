@@ -103,6 +103,9 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath("Sprite:flip_h")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath("Name:text")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
@@ -110,6 +113,7 @@ collision_layer = 2
 floor_constant_speed = true
 floor_max_angle = 1.39626
 floor_snap_length = 0.5
+safe_margin = 1.0
 script = ExtResource("1_dw050")
 speed = 200
 
@@ -147,3 +151,17 @@ speed_scale = 0.85
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_dw050")
+
+[node name="Name" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -17.0
+offset_top = -60.0
+offset_right = 23.0
+offset_bottom = -37.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
