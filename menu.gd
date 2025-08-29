@@ -6,12 +6,14 @@ var players := []
 var options := {"host": 1}
 @export var player_scene: PackedScene
 var peer := WebSocketMultiplayerPeer.new()
+var ping_ms: int = -1   # latest RTT in ms, -1 = not connected / error
 var rooms := []
 const PORT = 22023
 signal server_error(err:String)
 signal player_request_join(id:int)
 var ship: Variant
 func _ready() -> void:
+	_ping_loop()
 	server_error.connect(show_error)
 	if FileAccess.file_exists("user://ip.address"):
 		var file = FileAccess.open("user://ip.address",FileAccess.READ)
@@ -88,6 +90,10 @@ func _on_go_pressed() -> void:
 	rpc_id(1,"join_game",int($Private.text),"brbfr")
 
 func _process(delta: float) -> void:
+	if ping_ms != -1:
+		$UI/Ping.text = "Ping: %sms"%ping_ms
+	else:
+		$UI/Ping.text = ""
 	if $Private/Icon/Tube/Loading.visible or $Host/Icon/Tube/Loading.visible:
 		$Private.editable = false
 		$Title/IP.editable = false
@@ -197,6 +203,26 @@ func create_airship(coords:int):
 	ship.position.x = coords
 	add_child(ship)
 
+
+
+@rpc("any_peer","call_local")
+func ping(sent_time: int) -> void:
+	var id := multiplayer.get_remote_sender_id()
+	if id == 0: return
+	rpc_id(id, "pong", sent_time, Time.get_ticks_msec())
+
+@rpc("any_peer","call_local")
+func pong(sent_time: int, server_time: int) -> void:
+	var now := Time.get_ticks_msec()
+	ping_ms = now - sent_time   # update ping ms
+
+func _ping_loop() -> void:
+	if peer.get_connection_status() == peer.ConnectionStatus.CONNECTION_CONNECTED:
+		rpc_id(1, "ping", Time.get_ticks_msec())
+	else:
+		ping_ms = -1
+	await get_tree().create_timer(1.0).timeout
+	_ping_loop()
 @rpc("any_peer","call_remote","reliable")
 func set_pos(posx:int):
 	get_node(str(multiplayer.get_unique_id())).position.x = posx

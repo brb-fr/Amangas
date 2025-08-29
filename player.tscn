@@ -28,7 +28,7 @@ shader_parameter/visor_lower_color = Color(0.313726, 0.494118, 0.635294, 1)
 shader_parameter/visor_upper_color = Color(0.592157, 0.792157, 0.866667, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dw050"]
-size = Vector2(24, 36)
+size = Vector2(24, 31)
 
 [sub_resource type="Animation" id="Animation_d2bti"]
 length = 0.001
@@ -107,10 +107,14 @@ properties/2/replication_mode = 2
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
+floor_constant_speed = true
+floor_max_angle = 1.39626
+floor_snap_length = 0.5
 script = ExtResource("1_dw050")
 speed = 200
 
 [node name="Shadow" type="Sprite2D" parent="."]
+z_index = -1
 position = Vector2(1.836, 28)
 scale = Vector2(0.929385, 0.551724)
 texture = ExtResource("3_n7ghd")
@@ -121,7 +125,7 @@ scale = Vector2(0.65, 0.65)
 texture = ExtResource("4_nvl01")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 20)
+position = Vector2(3.50001, 19)
 rotation = -1.57079
 shape = SubResource("RectangleShape2D_dw050")
 
