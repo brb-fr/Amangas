@@ -80,7 +80,7 @@ corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h1wq0"]
 
-[node name="Menu" type="Control"]
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

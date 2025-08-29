@@ -7,7 +7,7 @@ uniform vec3 body = vec3(0.149, 0.149, 0.647);
 uniform vec3 neck = vec3(0.647, 0.149, 0.149);
 uniform vec3 outline: source_color;
 uniform vec3 shadow: source_color;
-uniform vec3 shadow_repl : source_color; // RGB(39, 164, 39) ≈ vec3(0.153, 0.643, 0.153)
+
 // Visor shades (original green pixels)
 uniform vec3 visor_lower : source_color; // RGB(38, 101, 38) ≈ vec3(0.149, 0.396, 0.149)
 uniform vec3 visor_upper : source_color; // RGB(39, 164, 39) ≈ vec3(0.153, 0.643, 0.153)

@@ -15,13 +15,12 @@ shader_parameter/body = Vector3(0.149, 0.149, 0.647)
 shader_parameter/neck = Vector3(0.647, 0.149, 0.149)
 shader_parameter/outline = Color(0, 0, 0, 1)
 shader_parameter/shadow = Color(0.215686, 0.231373, 0.231373, 1)
-shader_parameter/shadow_repl = Color(0.188235, 0, 0.282353, 1)
 shader_parameter/visor_lower = Color(0, 0.494118, 0, 1)
 shader_parameter/visor_upper = Color(0, 1, 0, 1)
 shader_parameter/tolerance_outline = 0.045
 shader_parameter/tolerance_body = 0.174
 shader_parameter/tolerance_neck = 0.19
-shader_parameter/tolerance_shadow = 0.002
+shader_parameter/tolerance_shadow = 0.15
 shader_parameter/tolerance_visor_lower = 0.135
 shader_parameter/tolerance_visor_upper = 0.68
 shader_parameter/player_color = Color(1, 1, 1, 1)
@@ -29,7 +28,7 @@ shader_parameter/visor_lower_color = Color(0.313726, 0.494118, 0.635294, 1)
 shader_parameter/visor_upper_color = Color(0.592157, 0.792157, 0.866667, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dw050"]
-radius = 13.0
+radius = 12.0
 height = 38.0
 
 [sub_resource type="Animation" id="Animation_d2bti"]
@@ -73,7 +72,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
+"update": 1,
 "values": [ExtResource("5_ivps1"), ExtResource("6_urp6f"), ExtResource("7_bwjto"), ExtResource("8_606se")]
 }
 tracks/1/type = "value"
@@ -85,8 +84,8 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(2.32, 3.518), Vector2(2.965, -8.262), Vector2(1.69, 3.811), Vector2(5.53, -4.835)]
+"update": 1,
+"values": [Vector2(2.32, 4.013), Vector2(3.575, -8.262), Vector2(2.86, 2.941), Vector2(5.53, -4.835)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ta5nu"]
@@ -113,8 +112,8 @@ script = ExtResource("1_dw050")
 speed = 200
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(1.836, 27.2435)
-scale = Vector2(0.929385, 0.741828)
+position = Vector2(1.836, 28)
+scale = Vector2(0.929385, 0.551724)
 texture = ExtResource("3_n7ghd")
 
 [node name="Sprite" type="Sprite2D" parent="."]
