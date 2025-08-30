@@ -6,7 +6,10 @@ var last_vertical = 0
 @onready var anim = $Anims
 @onready var sprite = $Sprite
 var username := ""
+var moveable := true
 func _enter_tree() -> void:
+	if OS.get_name() == "Android":
+		$Camera2D.zoom = Vector2(1.60,1.60)
 	set_multiplayer_authority(name.to_int())
 	if is_multiplayer_authority():
 		$Camera2D.enabled = true
@@ -16,7 +19,7 @@ func _ready() -> void:
 	$uname.text = FileAccess.get_file_as_string("user://user.name")
 
 func _physics_process(delta):
-	if is_multiplayer_authority():
+	if is_multiplayer_authority() and moveable:
 		if OS.get_name() == "Windows":
 			var left = Input.is_action_pressed("ui_left")
 			var right = Input.is_action_pressed("ui_right")

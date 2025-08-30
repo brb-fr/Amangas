@@ -1,9 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://brr8secclf31t"]
+[gd_scene load_steps=39 format=3 uid="uid://brr8secclf31t"]
 
 [ext_resource type="Script" uid="uid://tf5tg3fhn0pu" path="res://menu.gd" id="1_mae5d"]
 [ext_resource type="PackedScene" uid="uid://df6at7dtnipjm" path="res://node_2d.tscn" id="2_h1wq0"]
 [ext_resource type="PackedScene" uid="uid://w4n6cu0n5e7r" path="res://player.tscn" id="3_dwrpx"]
-[ext_resource type="Shader" uid="uid://cosp3yqm0ldof" path="res://among-us-assets-main/Gui/rounded.gdshader" id="3_ytr4m"]
 [ext_resource type="FontFile" uid="uid://cxi2tddxcxcfu" path="res://amongus vector.ttf" id="4_4hy44"]
 [ext_resource type="Texture2D" uid="uid://bxwj85y3w4w3n" path="res://among-us-assets-main/Gui/Loading/1.png" id="4_ecwwl"]
 [ext_resource type="Texture2D" uid="uid://doy00nb144c88" path="res://among-us-assets-main/Gui/MainMenu-sharedassets0.assets-189.png" id="4_l48gv"]
@@ -12,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://bquwxhenyxpue" path="res://among-us-assets-main/Gui/close.png" id="8_kk3ma"]
 [ext_resource type="Texture2D" uid="uid://c88ufory61351" path="res://among-us-assets-main/Gui/tick.png" id="8_nrnbx"]
 [ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="12_dwrpx"]
+[ext_resource type="Texture2D" uid="uid://bkvmydfn5saxg" path="res://addons/virtual_joystick/textures/joystick_tip.png" id="13_g7jxm"]
+[ext_resource type="Texture2D" uid="uid://dfxwdcdl4tmgf" path="res://among-us-assets-main/Gui/chat.png" id="13_jspdm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4hy44"]
 
@@ -26,10 +27,6 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kk3ma"]
-shader = ExtResource("3_ytr4m")
-shader_parameter/radius = 0.5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nrnbx"]
 atlas = ExtResource("4_l48gv")
@@ -119,6 +116,59 @@ corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h1wq0"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwrpx"]
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 0.501961)
+border_width_left = 5
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.133196, 0.133196, 0.133196, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oxnod"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0923971, 0.0923971, 0.092397, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gd0jp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ndjb"]
+atlas = ExtResource("4_l48gv")
+region = Rect2(1633, 330, 53, 48)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jspdm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g7jxm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7jxm"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(1, 1, 1, 1)
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.505344, 0.505344, 0.505344, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oxnod"]
+content_margin_left = 5.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ls4m"]
+
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -158,7 +208,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_ecwwl")
 text = "Create Game"
 
 [node name="Icon" type="TextureRect" parent="Host"]
-material = SubResource("ShaderMaterial_kk3ma")
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -238,7 +287,6 @@ drag_and_drop_selection_enabled = false
 caret_blink = true
 
 [node name="Icon" type="TextureRect" parent="Private"]
-material = SubResource("ShaderMaterial_kk3ma")
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -383,6 +431,7 @@ caret_blink = true
 libraries = {
 &"": SubResource("AnimationLibrary_g7jxm")
 }
+speed_scale = 1.5
 
 [node name="Hostmenu" type="ColorRect" parent="."]
 visible = false
@@ -521,13 +570,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -34.0
-offset_right = 20.0
-offset_bottom = -11.0
+offset_left = -19.0
+offset_top = -55.0
+offset_right = 21.0
+offset_bottom = -21.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -538,14 +588,14 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -40.0
-offset_top = -91.0
+offset_top = -131.0
 offset_right = 40.0
-offset_bottom = -57.0
+offset_bottom = -78.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/line_spacing = -5
 theme_override_constants/outline_size = 6
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -553,16 +603,204 @@ vertical_alignment = 1
 offset_top = -377.0
 offset_bottom = -77.0
 scale = Vector2(1.25, 1.25)
+pressed_color = Color(1, 1, 1, 1)
+deadzone_size = 40.0
 visibility_mode = 1
 
-[connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
+[node name="BG" type="TextureRect" parent="UI/Virtual Joystick/Base" index="0"]
+modulate = Color(1, 1, 1, 0.0784314)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_g7jxm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Tip" parent="UI/Virtual Joystick/Base" index="1"]
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("13_g7jxm")
+
+[node name="Chat" type="Panel" parent="UI"]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -818.0
+offset_top = 52.0
+offset_right = -57.0
+offset_bottom = 475.0
+grow_horizontal = 0
+pivot_offset = Vector2(761, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_dwrpx")
+
+[node name="Text" type="LineEdit" parent="UI/Chat"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -365.0
+offset_top = -58.0
+offset_right = 318.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0.462291, 0.462291, 0.462291, 1)
+theme_override_colors/font_color = Color(0.12549, 0.12549, 0.12549, 1)
+theme_override_styles/focus = SubResource("StyleBoxFlat_oxnod")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_oxnod")
+theme_override_styles/normal = SubResource("StyleBoxFlat_oxnod")
+placeholder_text = "Chat here"
+max_length = 120
+context_menu_enabled = false
+emoji_menu_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+
+[node name="Send" type="Button" parent="UI/Chat/Text"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 48.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_gd0jp")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_gd0jp")
+icon = SubResource("AtlasTexture_4ndjb")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Scroll" type="ScrollContainer" parent="UI/Chat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = 20.0
+offset_right = -62.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_jspdm")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Container" type="VBoxContainer" parent="UI/Chat/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="BTN" type="Button" parent="UI/Chat/Scroll/Container"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+theme_override_colors/font_hover_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.0923971, 0.0923971, 0.0923971, 1)
+theme_override_colors/font_focus_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+theme_override_colors/font_pressed_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+theme_override_constants/line_spacing = -2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g7jxm")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxFlat_g7jxm")
+theme_override_styles/normal = SubResource("StyleBoxFlat_g7jxm")
+action_mode = 0
+text = " 
+ "
+alignment = 0
+
+[node name="Text" type="RichTextLabel" parent="UI/Chat/Scroll/Container/BTN"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0.122252, 0.122252, 0.122252, 1)
+theme_override_styles/fill = SubResource("StyleBoxEmpty_oxnod")
+theme_override_styles/background = SubResource("StyleBoxEmpty_oxnod")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oxnod")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oxnod")
+bbcode_enabled = true
+text = "brbfr:
+  hi"
+autowrap_mode = 0
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="BTN" type="Button" parent="UI"]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -67.0
+offset_top = 6.0
+offset_right = -7.0
+offset_bottom = 64.0
+grow_horizontal = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_3ls4m")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3ls4m")
+icon = ExtResource("13_jspdm")
+icon_alignment = 1
+expand_icon = true
+
 [connection signal="pressed" from="Host" to="." method="check_delay"]
+[connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
 [connection signal="mouse_entered" from="Private/Go" to="." method="_on_go_mouse_entered"]
 [connection signal="mouse_exited" from="Private/Go" to="." method="_on_go_mouse_exited"]
-[connection signal="pressed" from="Private/Go" to="." method="_on_go_pressed"]
 [connection signal="pressed" from="Private/Go" to="." method="check_delay"]
+[connection signal="pressed" from="Private/Go" to="." method="_on_go_pressed"]
 [connection signal="text_changed" from="Title/IP" to="." method="_on_ip_text_changed"]
 [connection signal="text_changed" from="Title/Name" to="." method="_on_name_text_changed"]
 [connection signal="mouse_entered" from="Error/Close" to="." method="_on_close_mouse_entered"]
 [connection signal="mouse_exited" from="Error/Close" to="." method="_on_close_mouse_exited"]
 [connection signal="pressed" from="Error/Close" to="." method="_on_close_pressed"]
+[connection signal="mouse_entered" from="UI/Chat/Text/Send" to="." method="_on_send_mouse_entered"]
+[connection signal="mouse_exited" from="UI/Chat/Text/Send" to="." method="_on_send_mouse_exited"]
+[connection signal="pressed" from="UI/Chat/Text/Send" to="." method="_on_send_pressed"]
+[connection signal="button_down" from="UI/Chat/Scroll/Container/BTN" to="." method="_on_btn_button_down"]
+[connection signal="button_up" from="UI/Chat/Scroll/Container/BTN" to="." method="_on_btn_button_up"]
+[connection signal="pressed" from="UI/BTN" to="." method="_on_btn_pressed"]
+
+[editable path="UI/Virtual Joystick"]

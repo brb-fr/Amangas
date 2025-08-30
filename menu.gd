@@ -8,14 +8,16 @@ var options := {"host": 1}
 var peer := WebSocketMultiplayerPeer.new()
 var ping_ms: int = -1   # latest RTT in ms, -1 = not connected / error
 var rooms := []
+@onready var chat_scene: Button = $UI/Chat/Scroll/Container/BTN
 const PORT = 22023
 signal server_error(err:String)
 signal player_request_join(id:int)
 @onready var ship := spaceship_scene.instantiate()
-
+var scrolling := false
+var click_pos: Vector2
 func _ready() -> void:
 	if DisplayServer.is_touchscreen_available():
-		$UI/TouchScreenJoystick.show()
+		$"UI/Virtual Joystick".show()
 	ship.hide()
 	add_child(ship)
 	_ping_loop()
@@ -54,6 +56,8 @@ func _ready() -> void:
 			print("Client disconnected (%s)" % id)
 			if get_node(str(id)):
 				remove_child(get_node(str(id)))
+				for room in rooms:
+					room.players.erase(id)
 		)
 
 func _on_host_pressed() -> void:
@@ -104,10 +108,21 @@ func _on_go_pressed() -> void:
 	rpc_id(1,"join_game",int($Private.text),$Title/Name.text)
 
 func _process(delta: float) -> void:
+	if scrolling:
+		$UI/Chat/Scroll.scroll_vertical += (click_pos.y - get_viewport().get_mouse_position().y) * 0.05
 	if ping_ms != -1:
+		$UI/BTN.show()
+		$UI/Code.show()
+		get_viewport().get_mouse_position()
 		$UI/Ping.text = "Ping: %sms"%ping_ms
+		if DisplayServer.is_touchscreen_available():
+			$"UI/Virtual Joystick".show()
 	else:
+		$UI/Code.hide()
+		$UI/BTN.hide()
+		$UI/Chat.hide()
 		$UI/Ping.text = ""
+		$"UI/Virtual Joystick".hide()
 	if $Private/Icon/Tube/Loading.visible or $Host/Icon/Tube/Loading.visible:
 		$Private.editable = false
 		$Title/IP.editable = false
@@ -142,10 +157,9 @@ func _add_player(id:int, username:String):
 	player.get_node("uname").text = str(username)
 	return player
 
-@rpc("call_remote", "any_peer", "reliable")
-func set_players(players_arr:Array, options_dict:Dictionary):
-	options = options_dict
-	players = players_arr
+@rpc("any_peer","call_remote", "reliable")
+func set_players(rooms_arr:Array):
+	rooms = rooms_arr
 
 
 
@@ -170,6 +184,7 @@ func create_game(player_username:String, player_id:int = 0):
 	_add_player(player_real, player_username)
 	await get_tree().create_timer(0.25).timeout
 	rpc_id(player_real, "set_pos", int(room_code))
+	rpc("set_players", rooms)
 @rpc("any_peer", "call_remote", "reliable")
 func join_game(room_code:int, player_username:String, player_id:int=0):
 	var player_real = multiplayer.get_remote_sender_id() if player_id == 0 else player_id
@@ -177,45 +192,23 @@ func join_game(room_code:int, player_username:String, player_id:int=0):
 	for room in rooms:
 		if int(room.code) == int(room_code):
 			print("Player joined room %s (%s)" % [room_code, player_real])
-			rpc_id(player_real, "player_joined_room", int(room_code))
-			rpc_id(room.host_id, "add_player_to_lobby", player_real)
+			room.players.append(int(player_real))
 			rpc_id(player_real, "create_airship", int(room_code))
 			_add_player(player_real, player_username)
 			await get_tree().create_timer(0.25).timeout
 			rpc_id(player_real, "set_pos",int(room_code))
+			rpc("set_players", rooms)
 			return
 	rpc_id(player_real, "send_err", "Room not found.")
 @rpc("any_peer", "call_remote", "reliable")
 func send_err(err:String):
 	server_error.emit(err)
 
-@rpc("any_peer", "call_remote", "reliable")
-func host_joined_lobby():
-	var id = multiplayer.get_remote_sender_id()
-	for room in rooms:
-		if room.host_id == id:
-			print("Host joined the game.")
-			return
-
-@rpc("any_peer", "call_local", "reliable")
-func player_joined_room(room_code:Variant):
-	var id = multiplayer.get_remote_sender_id()
-	for room in rooms:
-		if int(room.code) == int(room_code):
-			print("Player joined the game.")
-			room.players.append(id)
-			for player in room.players:
-				rpc_id(int(player), "add_player_to_lobby", int(id))
-			return
-
-@rpc("any_peer", "call_remote", "reliable")
-func add_player_to_lobby(id:int):
-	player_request_join.emit(id)
 
 @rpc("any_peer","call_remote","reliable")
 func create_airship(coords:int):
 	ship.show()
-	ship.position.x = coords
+	ship.position = Vector2(coords,-250)
 	$UI/Code.text = "Code\n%s"%coords
 
 @rpc("any_peer","call_local")
@@ -234,11 +227,11 @@ func _ping_loop() -> void:
 		rpc_id(1, "ping", Time.get_ticks_msec())
 	else:
 		ping_ms = -1
-	await get_tree().create_timer(1.25).timeout
+	await get_tree().create_timer(1.0).timeout
 	_ping_loop()
 @rpc("any_peer","call_remote","reliable")
-func set_pos(posx:int):
-	get_node(str(multiplayer.get_unique_id())).position.x = posx
+func set_pos(pos:int):
+	get_node(str(multiplayer.get_unique_id())).position = Vector2(pos,-250)
 
 
 func check_delay() -> void:
@@ -252,6 +245,8 @@ func check_delay() -> void:
 			$Error/Err.text = "Invalid server address."
 			$Host/Icon/Tube/Loading.hide()
 			$Private/Icon/Tube/Loading.hide()
+	await get_tree().create_timer(0.02).timeout
+	peer.handshake_timeout = 5.0
 
 func _on_ip_text_changed(new_text: String) -> void:
 	var file = FileAccess.open("user://ip.address",FileAccess.WRITE)
@@ -261,3 +256,47 @@ func _on_ip_text_changed(new_text: String) -> void:
 func _on_name_text_changed(new_text: String) -> void:
 	var file = FileAccess.open("user://user.name",FileAccess.WRITE)
 	file.store_string(new_text)
+
+
+func _on_btn_pressed() -> void:
+	get_node(str(multiplayer.get_unique_id())).moveable = !get_node(str(multiplayer.get_unique_id())).moveable
+	$UI/Chat.visible =! $UI/Chat.visible
+	
+
+func _on_send_pressed() -> void:
+	if $UI/Chat/Text.text.lstrip(" ") != "":
+		rpc_id(1, "send_chat_packet", "%s:\n  %s"%[$Title/Name.text, $UI/Chat/Text.text.lstrip(" ")])
+		$UI/Chat/Text.clear()
+
+@rpc("any_peer", "call_local", "reliable")
+func chat(msg:String):
+	var btn = chat_scene.duplicate()
+	$UI/Chat/Scroll/Container.add_child(btn)
+	btn.get_child(0).text = msg
+	btn.show()
+@rpc("any_peer", "call_remote", "reliable")
+func send_chat_packet(msg:String):
+	for room in rooms:
+		print(rooms)
+		if multiplayer.get_remote_sender_id() in room.players:
+			for player in room.players:
+				rpc_id(player, "chat", msg)
+func _on_send_mouse_entered() -> void:
+	$UI/Chat/Text/Send.modulate = Color(0.1,1.0,0.1)
+	
+
+func _on_send_mouse_exited() -> void:
+	$UI/Chat/Text/Send.modulate = Color.WHITE
+
+
+	
+
+
+func _on_btn_button_down() -> void:
+	click_pos = get_viewport().get_mouse_position()
+	if DisplayServer.is_touchscreen_available():
+		scrolling = true
+
+
+func _on_btn_button_up() -> void:
+	scrolling = false
