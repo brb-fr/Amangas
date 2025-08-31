@@ -246,7 +246,7 @@ func check_delay() -> void:
 			$Host/Icon/Tube/Loading.hide()
 			$Private/Icon/Tube/Loading.hide()
 	await get_tree().create_timer(0.02).timeout
-	peer.handshake_timeout = 5.0
+	peer.handshake_timeout = 2.5
 
 func _on_ip_text_changed(new_text: String) -> void:
 	var file = FileAccess.open("user://ip.address",FileAccess.WRITE)
@@ -261,12 +261,17 @@ func _on_name_text_changed(new_text: String) -> void:
 func _on_btn_pressed() -> void:
 	get_node(str(multiplayer.get_unique_id())).moveable = !get_node(str(multiplayer.get_unique_id())).moveable
 	$UI/Chat.visible =! $UI/Chat.visible
-	
+	get_node(str(multiplayer.get_unique_id())).get_node("Anims").play("RESET")
 
 func _on_send_pressed() -> void:
 	if $UI/Chat/Text.text.lstrip(" ") != "":
-		rpc_id(1, "send_chat_packet", "%s:\n  %s"%[$Title/Name.text, $UI/Chat/Text.text.lstrip(" ")])
-		$UI/Chat/Text.clear()
+		if !$UI/Chat/Text.text.begins_with("/"):
+			rpc_id(1, "send_chat_packet", "%s:\n  %s"%[get_node(str(multiplayer.get_unique_id())).get_node("uname").text, $UI/Chat/Text.text.lstrip(" ")])
+		else:
+			if $UI/Chat/Text.text.begins_with("/leave"):
+				peer = WebSocketMultiplayerPeer.new()
+				multiplayer.multiplayer_peer = null
+	$UI/Chat/Text.clear()
 
 @rpc("any_peer", "call_local", "reliable")
 func chat(msg:String):
@@ -274,15 +279,17 @@ func chat(msg:String):
 	$UI/Chat/Scroll/Container.add_child(btn)
 	btn.get_child(0).text = msg
 	btn.show()
+	await get_tree().create_timer(0.05).timeout
+	$UI/Chat/Scroll.scroll_vertical += 25
 @rpc("any_peer", "call_remote", "reliable")
 func send_chat_packet(msg:String):
 	for room in rooms:
-		print(rooms)
 		if multiplayer.get_remote_sender_id() in room.players:
 			for player in room.players:
 				rpc_id(player, "chat", msg)
 func _on_send_mouse_entered() -> void:
-	$UI/Chat/Text/Send.modulate = Color(0.1,1.0,0.1)
+	if !DisplayServer.is_touchscreen_available():
+		$UI/Chat/Text/Send.modulate = Color(0.1,1.0,0.1)
 	
 
 func _on_send_mouse_exited() -> void:

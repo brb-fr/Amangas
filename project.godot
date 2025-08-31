@@ -24,6 +24,7 @@ config/icon="uid://c7lnjcwrr5xxw"
 
 window/size/viewport_width=1360
 window/size/viewport_height=768
+window/size/mode=3
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 

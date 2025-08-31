@@ -121,7 +121,7 @@ z_index = 1
 collision_layer = 2
 floor_constant_speed = true
 floor_max_angle = 1.39626
-floor_snap_length = 0.5
+floor_snap_length = 0.0
 safe_margin = 1.0
 script = ExtResource("1_dw050")
 speed = 200
@@ -159,7 +159,7 @@ playback_auto_capture = false
 speed_scale = 0.85
 
 [node name="uname" type="RichTextLabel" parent="."]
-z_index = 10
+z_index = 4096
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
